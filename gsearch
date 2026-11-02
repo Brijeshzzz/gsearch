@@ -1,0 +1,23 @@
+#!/bin/bash
+
+browser="xdg-open"
+engine="https://www.google.com/search?q="
+
+while [ $# -gt 0 ]; do
+    case "$1" in
+        -F)
+            browser="firefox"
+            shift
+            ;;
+        -D)
+            engine="https://duckduckgo.com/?q="
+            shift
+            ;;
+        *)
+            break
+            ;;
+    esac
+done
+
+query=$(python3 -c 'import sys, urllib.parse; print(urllib.parse.quote_plus(" ".join(sys.argv[1:])))' "$@")
+"$browser" "${engine}${query}" &
